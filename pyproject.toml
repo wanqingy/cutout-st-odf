@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "st-odf"
+version = "0.1.0"
+description = "Structure Tensor → ODF Glyph pipeline for 3-D fluorescence microscopy"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "TBD" }
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.11",
+    "fiberorient>=0.2",
+    "pyvista>=0.44",
+    "tifffile>=2023.1",
+    "matplotlib>=3.7",
+    "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+# ac_data_tools is an internal Allen Institute package required for Step 1 (cutout).
+# Install with: pip install git+https://github.com/AllenInstitute/ac_data_tools.git
+# Steps 2 and 3 (structure tensor + ODF glyph) work without it if you supply a local tif.
+cutout = ["ac-data-tools"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/st_odf"]

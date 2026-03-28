@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data & outputs (don't commit large files)
+notebooks/cutouts/
+*.tif
+*.tiff
+*.npy
+*.zarr/
+screenshots/
+
+# Editor
+.vscode/
+.idea/
+*.swp
