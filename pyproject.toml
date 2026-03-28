@@ -7,7 +7,7 @@ name = "st-odf"
 version = "0.1.0"
 description = "Structure Tensor → ODF Glyph pipeline for 3-D fluorescence microscopy"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = { text = "TBD" }
 dependencies = [
     "numpy>=1.24",
@@ -27,3 +27,6 @@ cutout = ["ac-data-tools"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/st_odf"]
+
+[tool.uv.sources]
+ac-data-tools = { git = "https://github.com/AllenInstitute/ac_data_tools.git" }
