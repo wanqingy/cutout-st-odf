@@ -8,6 +8,48 @@ Distribution Function (ODF) glyph from structure-tensor eigenvectors.
 from __future__ import annotations
 
 import numpy as np
+from scipy.spatial import ConvexHull
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Sphere
+# ─────────────────────────────────────────────────────────────────────────────
+
+class _Sphere:
+    """Minimal sphere mesh: Fibonacci-sampled vertices + ConvexHull faces."""
+    __slots__ = ("vertices", "faces")
+
+    def __init__(self, vertices: np.ndarray, faces: np.ndarray) -> None:
+        self.vertices = vertices
+        self.faces = faces
+
+
+def make_sphere(n: int) -> _Sphere:
+    """Return a unit sphere with *n* Fibonacci-sampled vertices and triangulated faces.
+
+    Replaces ``fiberorient.util.make_sphere`` without requiring dipy.  The
+    returned object exposes ``.vertices`` (shape ``(n, 3)``) and ``.faces``
+    (shape ``(F, 3)``) — the same attributes used by the ODF pipeline.
+
+    Parameters
+    ----------
+    n : int
+        Number of points on the sphere.
+
+    Returns
+    -------
+    sphere : _Sphere
+    """
+    z = np.linspace(1 - 1 / n, -1 + 1 / n, num=n)
+    polar = np.arccos(z)
+    azim = np.mod((np.pi * (3.0 - np.sqrt(5.0))) * np.arange(n), 2 * np.pi)
+
+    x = np.sin(polar) * np.cos(azim)
+    y = np.sin(polar) * np.sin(azim)
+    vertices = np.column_stack([x, y, z])
+
+    faces = ConvexHull(vertices).simplices
+    return _Sphere(vertices=vertices, faces=faces)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

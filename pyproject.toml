@@ -12,7 +12,6 @@ license = { text = "TBD" }
 dependencies = [
     "numpy>=1.24",
     "scipy>=1.11",
-    "fiberorient>=0.2",
     "pyvista>=0.44",
     "tifffile>=2023.1",
     "matplotlib>=3.7",

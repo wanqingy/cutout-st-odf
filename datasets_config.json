@@ -1,26 +1,79 @@
 {
-  "description": "Anatomical orientation configuration for cutout_st_odf_glyph.ipynb. Add one entry per dataset with the rotation matrix that maps image axes (z,y,x) to anatomical axes (e.g. A-P, D-V, M-L).",
+  "description": "Anatomical orientation configuration for cutout_st_odf_glyph.ipynb. Contains one entry per raw imaging dataset with the rotation matrix that maps zarr/image axes (z,y,x) to anatomical axes (A-P, D-V, M-L) or a chosen display convention.",
   "usage": {
-    "dec_rotation": "vectors_anat = vectors @ anatomical_rotation.T  — rotate ST eigenvectors before DEC colouring",
-    "odf_glyph": "apply_anatomical_rotation(sphere.vertices, anatomical_rotation)  — from st_odf.utils",
-    "dec_convention": "After rotation: R = dim-0, G = dim-1, B = dim-2 of the rotated vector",
-    "camera_note": "CAMERA_POS in the notebook is in anatomical space; adjust per dataset for the desired view plane"
+    "dec_rotation": "vectors_anat = vectors @ anatomical_rotation.T  — then pass vectors_anat to img_to_dec()",
+    "odf_glyph": "apply_anatomical_rotation(sphere.vertices, anatomical_rotation)  — from st_odf_utils",
+    "dec_convention": "dec_rgb_order = [r_axis, g_axis, b_axis] — indices into the anatomically-rotated vector. Convention: horizontal=R, vertical=G, depth=B",
+    "camera_note": "CAMERA_POS is in anatomical space; adjust per dataset to get the desired view plane"
   },
   "datasets": [
     {
-      "id": "MY_DATASET",
-      "name": "My Dataset Name",
-      "description": "Replace with your dataset description.",
+      "id": "H17_PO11_S8",
+      "name": "H17_PO11_S8_20250408",
+      "description": "PO11 section 8, acquired 2025-04-08",
+      "anatomical_axes": ["M-L", "D-V", "A-P"],
+      "anatomical_rotation": [
+        [-1,  0,  0],
+        [ 0,  -1,  0],
+        [ 0,  0,  1]
+      ],
+      "anatomical_rotation_note": "Flip zarr-x (dim-0) to align with A-P convention",
+      "dec_rgb_order": [2, 1, 0],
+      "dec_colors_after_rotation": {"R": "M-L (horizontal)", "G": "D-V (vertical)", "B": "A-P (depth)"},
+      "ng_link": null,
+      "mip_level": "0",
+      "notes": ""
+    },
+    {
+      "id": "H17_PO12_S4",
+      "name": "H17_PO12_S4_20250501",
+      "description": "PO12 section 4, acquired 2025-05-01",
+      "anatomical_axes": ["M-L", "D-V", "A-P"],
+      "anatomical_rotation": [
+        [-0.4226,  0.9063,  0],
+        [ 0.9063,  0.4226,  0],
+        [ 0,        0,       1]
+      ],
+      "anatomical_rotation_note": "65 deg CCW rotation in the ZY plane to align A-P axis",
+      "dec_rgb_order": [2, 1, 0],
+      "dec_colors_after_rotation": {"R": "M-L (horizontal)", "G": "D-V (vertical)", "B": "A-P (depth)"},
+      "ng_link": null,
+      "mip_level": "0",
+      "notes": "Use H17_PO12_S4_rot65 entry if the volume was already pre-rotated 65 deg"
+    },
+    {
+      "id": "H17_PO6_S3",
+      "name": "H17_PO6_S3_20250422",
+      "description": "PO6 section 3, acquired 2025-04-22",
       "anatomical_axes": ["A-P", "D-V", "M-L"],
       "anatomical_rotation": [
         [-1,  0,  0],
         [ 0,  1,  0],
         [ 0,  0,  1]
       ],
-      "anatomical_rotation_note": "Example: flip the z-axis to align with A-P convention. Replace with your dataset's actual rotation.",
-      "dec_colors_after_rotation": {"R": "A-P", "G": "D-V", "B": "M-L"},
+      "anatomical_rotation_note": "Flip zarr-x (dim-0) to align with A-P convention",
+      "dec_rgb_order": [2, 1, 0],
+      "dec_colors_after_rotation": {"R": "M-L (horizontal)", "G": "D-V (vertical)", "B": "A-P (depth)"},
+      "ng_link": null,
       "mip_level": "0",
-      "notes": "Edit DATASET_ID in the notebook Parameters cell to match this 'id'."
+      "notes": ""
+    },
+    {
+      "id": "H17_PO5_S8",
+      "name": "H17_PO5_S8_20250410",
+      "description": "PO5 section 8, acquired 2025-04-10",
+      "anatomical_axes": ["A-P", "D-V", "M-L"],
+      "anatomical_rotation": [
+        [ 0.1045, -0.9945,  0],
+        [-0.9945, -0.1045,  0],
+        [ 0,       0,       1]
+      ],
+      "anatomical_rotation_note": "ZY swap followed by 174 deg CW rotation around zarr-x axis",
+      "dec_rgb_order": [2, 1, 0],
+      "dec_colors_after_rotation": {"R": "M-L (horizontal)", "G": "D-V (vertical)", "B": "A-P (depth)"},
+      "ng_link": null,
+      "mip_level": "0",
+      "notes": "Computed as R_cw(174deg) @ P_zy where P_zy swaps zarr-y and zarr-z"
     }
   ]
 }
